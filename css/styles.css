@@ -1,0 +1,3670 @@
+/* =========================================================
+   POKÉMON KANTO (151) - DESIGN SYSTEM & ESTILOS PRINCIPAIS
+   ========================================================= */
+
+:root {
+  /* Cores Base & Superfícies */
+  --bg-dark: #0f131c;
+  --bg-card: rgba(22, 28, 42, 0.85);
+  --bg-card-hover: rgba(30, 39, 58, 0.95);
+  --bg-card-border: rgba(255, 255, 255, 0.08);
+  --bg-glass: rgba(255, 255, 255, 0.05);
+
+  /* Acentos de Cores */
+  --primary-red: #ff3b4e;
+  --primary-red-hover: #ff1f34;
+  --primary-blue: #3b82f6;
+  --primary-yellow: #facc15;
+  --primary-green: #22c55e;
+  --accent-purple: #a855f7;
+
+  /* Tipografia & Texto */
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --font-main: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-retro: 'Press Start 2P', monospace;
+
+  /* Sombras & Brilhos */
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 20px 35px -10px rgba(0, 0, 0, 0.6);
+  --glow-red: 0 0 25px rgba(255, 59, 78, 0.45);
+  --glow-yellow: 0 0 20px rgba(250, 204, 21, 0.4);
+
+  /* Borda & Arredondamentos */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(59, 130, 246, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 85% 85%, rgba(239, 68, 68, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, #080b11 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Layout Principal em Formato Dashboard com Sidebar */
+.app-layout {
+  display: flex;
+  max-width: 1560px;
+  margin: 0 auto;
+  min-height: 100vh;
+  gap: 24px;
+  padding: 20px;
+  position: relative;
+}
+
+/* Barra Superior Mobile (Oculta no Desktop) */
+.mobile-top-bar {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  position: sticky;
+  top: 10px;
+  z-index: 90;
+  box-shadow: var(--shadow-sm);
+}
+
+.hamburger-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hamburger-btn span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+.mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobile-logo-icon {
+  width: 26px;
+  height: 26px;
+}
+
+.mobile-brand-title {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.mobile-brand-title strong {
+  color: var(--primary-yellow);
+}
+
+.mobile-pill {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  color: var(--primary-yellow);
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+
+/* =========================================================
+   SIDEBAR LATERAL DE FUNÇÕES
+   ========================================================= */
+
+.game-sidebar {
+  width: 290px;
+  min-width: 290px;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: sticky;
+  top: 20px;
+  height: calc(100vh - 40px);
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon-box {
+  width: 44px;
+  height: 44px;
+  background: linear-gradient(135deg, rgba(255, 59, 78, 0.2), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 59, 78, 0.3);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--glow-red);
+}
+
+.header-logo-icon {
+  width: 30px;
+  height: 30px;
+  animation: floatBall 3s ease-in-out infinite;
+}
+
+@keyframes floatBall {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-4px) rotate(15deg); }
+}
+
+.brand-text {
+  line-height: 1.15;
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.brand-subtitle {
+  font-size: 0.72rem;
+  font-weight: 800;
+  background: linear-gradient(90deg, #ff3b4e, #facc15);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 1px;
+}
+
+.sidebar-close-btn {
+  display: none;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card do Treinador */
+.trainer-profile-card {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.trainer-avatar {
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(255, 59, 78, 0.3));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.trainer-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.trainer-name {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.trainer-rank {
+  font-size: 0.72rem;
+  color: #60a5fa;
+  font-weight: 600;
+}
+
+/* Menu de Navegação da Sidebar */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-section-label {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  padding-left: 6px;
+}
+
+.nav-item-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: left;
+  width: 100%;
+}
+
+.nav-item-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.nav-item-btn.active {
+  background: linear-gradient(135deg, rgba(255, 59, 78, 0.22), rgba(59, 130, 246, 0.22));
+  border-color: rgba(255, 59, 78, 0.5);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(255, 59, 78, 0.22);
+}
+
+.nav-item-icon {
+  font-size: 1.25rem;
+}
+
+.nav-item-text {
+  flex: 1;
+}
+
+.nav-item-badge {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  color: var(--primary-yellow);
+}
+
+/* Widget de Progresso da Pokédex */
+.sidebar-progress-widget {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.widget-header strong {
+  color: var(--primary-yellow);
+}
+
+.widget-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.widget-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #10b981, #facc15);
+  border-radius: var(--radius-full);
+  transition: width 0.4s ease;
+}
+
+.widget-sub {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* Ações no Rodapé da Sidebar */
+.sidebar-footer-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-action-btn {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+.sidebar-action-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.sidebar-action-btn.supply-btn {
+  border-color: rgba(34, 197, 94, 0.35);
+  color: #86efac;
+}
+
+.sidebar-action-btn.supply-btn:hover {
+  background: rgba(34, 197, 94, 0.2);
+  border-color: #22c55e;
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+/* Área de Conteúdo Principal */
+.main-stage {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-panel.hidden {
+  display: none !important;
+}
+
+/* =========================================================
+   BARRA DE HABITATS
+   ========================================================= */
+
+.habitats-container {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.habitats-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.habitats-scroll-wrapper {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+
+.habitat-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+
+.habitat-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+}
+
+.habitat-pill.active {
+  background: #ffffff;
+  color: #0f131c;
+  font-weight: 700;
+  border-color: #ffffff;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
+}
+
+/* =========================================================
+   ARENA DE ENCONTRO
+   ========================================================= */
+
+.encounter-arena {
+  min-height: 420px;
+  border-radius: var(--radius-lg);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.encounter-arena.searching::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+  animation: radarScan 0.9s ease-out;
+  pointer-events: none;
+  z-index: 10;
+}
+
+@keyframes radarScan {
+  0% { transform: scale(0.1); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* =========================================================
+   CAMADAS CENOGRÁFICAS PARALLAX & ATMOSFERA DOS JOGOS
+   ========================================================= */
+
+.arena-scenery-layers {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.scenery-sky-layer,
+.scenery-horizon-layer,
+.scenery-ground-layer,
+.scenery-decor-props,
+.scenery-light-shafts {
+  position: absolute;
+  inset: 0;
+  transition: all 0.6s ease;
+}
+
+/* Nuvens Flutuantes Anime */
+.sky-cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50px;
+  filter: blur(1px);
+  opacity: 0.9;
+}
+
+.sky-cloud::before,
+.sky-cloud::after {
+  content: '';
+  position: absolute;
+  background: inherit;
+  border-radius: 50%;
+}
+
+.sky-cloud.cloud-1 {
+  width: 140px;
+  height: 42px;
+  top: 14%;
+  left: -150px;
+  animation: floatCloud 24s linear infinite;
+}
+
+.sky-cloud.cloud-1::before {
+  width: 55px;
+  height: 55px;
+  top: -24px;
+  left: 20px;
+}
+
+.sky-cloud.cloud-1::after {
+  width: 70px;
+  height: 70px;
+  top: -35px;
+  left: 55px;
+}
+
+.sky-cloud.cloud-2 {
+  width: 100px;
+  height: 32px;
+  top: 26%;
+  left: -120px;
+  opacity: 0.6;
+  animation: floatCloud 32s linear infinite 8s;
+}
+
+.sky-cloud.cloud-2::before {
+  width: 40px;
+  height: 40px;
+  top: -18px;
+  left: 15px;
+}
+
+.sky-cloud.cloud-2::after {
+  width: 48px;
+  height: 48px;
+  top: -22px;
+  left: 42px;
+}
+
+.sky-cloud.cloud-3 {
+  width: 170px;
+  height: 48px;
+  top: 8%;
+  left: -180px;
+  opacity: 0.7;
+  animation: floatCloud 28s linear infinite 16s;
+}
+
+.sky-cloud.cloud-3::before {
+  width: 65px;
+  height: 65px;
+  top: -28px;
+  left: 25px;
+}
+
+.sky-cloud.cloud-3::after {
+  width: 80px;
+  height: 80px;
+  top: -38px;
+  left: 65px;
+}
+
+@keyframes floatCloud {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(100vw + 300px)); }
+}
+
+/* =========================================================
+   BIOMA 1: ROTA 1 & 2 (PLANÍCIE E GRAMA ALTA CLÁSSICA)
+   ========================================================= */
+.encounter-arena.habitat-route1 .scenery-sky-layer {
+  background: linear-gradient(180deg, #38bdf8 0%, #7dd3fc 40%, #bae6fd 65%, #f0fdf4 100%);
+}
+
+.encounter-arena.habitat-route1 .scenery-horizon-layer {
+  background: 
+    radial-gradient(ellipse 55% 25% at 20% 58%, #86efac 0%, transparent 80%),
+    radial-gradient(ellipse 65% 30% at 75% 56%, #4ade80 0%, transparent 85%),
+    linear-gradient(to bottom, transparent 48%, rgba(22, 163, 74, 0.4) 52%, #15803d 58%, transparent 62%);
+}
+
+.encounter-arena.habitat-route1 .scenery-ground-layer {
+  top: 54%;
+  height: 46%;
+  background: 
+    radial-gradient(ellipse 80% 50% at 50% 25%, #4ade80 0%, #22c55e 40%, #16a34a 70%, #15803d 100%);
+  border-top: 4px solid #86efac;
+  box-shadow: inset 0 8px 16px rgba(21, 128, 61, 0.45);
+}
+
+.encounter-arena.habitat-route1 .decor-tree.tree-left {
+  position: absolute;
+  left: 10px;
+  bottom: 38%;
+  width: 55px;
+  height: 95px;
+  background: radial-gradient(circle at 50% 30%, #15803d 0%, #166534 70%, #14532d 100%);
+  border-radius: 50% 50% 40% 40%;
+  opacity: 0.75;
+}
+
+.encounter-arena.habitat-route1 .decor-tree.tree-right {
+  position: absolute;
+  right: 15px;
+  bottom: 40%;
+  width: 70px;
+  height: 115px;
+  background: radial-gradient(circle at 50% 30%, #16a34a 0%, #15803d 70%, #14532d 100%);
+  border-radius: 50% 50% 40% 40%;
+  opacity: 0.7;
+}
+
+/* =========================================================
+   BIOMA 2: FLORESTA DE VIRIDIAN (FLORESTA FECHADA & FEIROS SOLARES)
+   ========================================================= */
+.encounter-arena.habitat-viridian .scenery-sky-layer {
+  background: linear-gradient(180deg, #022c22 0%, #064e3b 45%, #065f46 75%, #0f766e 100%);
+}
+
+.encounter-arena.habitat-viridian .scenery-light-shafts {
+  background: 
+    linear-gradient(115deg, rgba(254, 240, 138, 0.2) 0%, transparent 38%),
+    linear-gradient(125deg, transparent 35%, rgba(134, 239, 172, 0.16) 55%, transparent 75%);
+  animation: shaftShimmer 6s ease-in-out infinite alternate;
+}
+
+@keyframes shaftShimmer {
+  0% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.encounter-arena.habitat-viridian .scenery-ground-layer {
+  top: 52%;
+  height: 48%;
+  background: linear-gradient(180deg, #15803d 0%, #14532d 35%, #052e16 80%, #022c22 100%);
+  border-top: 4px solid #4ade80;
+}
+
+.encounter-arena.habitat-viridian .decor-tree.tree-left {
+  position: absolute;
+  left: -20px;
+  top: 0;
+  bottom: 35%;
+  width: 95px;
+  background: linear-gradient(90deg, #052e16 0%, #14532d 80%, transparent 100%);
+  opacity: 0.85;
+}
+
+.encounter-arena.habitat-viridian .decor-tree.tree-right {
+  position: absolute;
+  right: -20px;
+  top: 0;
+  bottom: 35%;
+  width: 105px;
+  background: linear-gradient(-90deg, #052e16 0%, #14532d 80%, transparent 100%);
+  opacity: 0.85;
+}
+
+/* =========================================================
+   BIOMA 3: MT. MOON (CAVERNA ROCHOSA & CRISTAIS LUNARES)
+   ========================================================= */
+.encounter-arena.habitat-mtmoon .scenery-sky-layer {
+  background: radial-gradient(ellipse at 50% 20%, #312e81 0%, #1e1b4b 45%, #0f172a 90%);
+}
+
+.encounter-arena.habitat-mtmoon .scenery-horizon-layer {
+  background: 
+    linear-gradient(to bottom, #1e1b4b 0%, transparent 40%),
+    radial-gradient(circle at 20% 35%, rgba(56, 189, 248, 0.3) 0%, transparent 35%),
+    radial-gradient(circle at 80% 30%, rgba(244, 63, 94, 0.3) 0%, transparent 35%);
+}
+
+.encounter-arena.habitat-mtmoon .scenery-ground-layer {
+  top: 54%;
+  height: 46%;
+  background: linear-gradient(180deg, #475569 0%, #334155 40%, #1e293b 80%, #090d16 100%);
+  border-top: 3px solid #64748b;
+  box-shadow: inset 0 6px 14px rgba(0, 0, 0, 0.6);
+}
+
+.encounter-arena.habitat-mtmoon .scenery-sparkle.sparkle-1 {
+  position: absolute;
+  top: 25%;
+  left: 22%;
+  width: 14px;
+  height: 22px;
+  background: #38bdf8;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  box-shadow: 0 0 16px #38bdf8, 0 0 28px #38bdf8;
+  animation: crystalGlow 2.5s ease-in-out infinite alternate;
+}
+
+.encounter-arena.habitat-mtmoon .scenery-sparkle.sparkle-2 {
+  position: absolute;
+  top: 30%;
+  right: 25%;
+  width: 16px;
+  height: 26px;
+  background: #f43f5e;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  box-shadow: 0 0 18px #f43f5e, 0 0 30px #f43f5e;
+  animation: crystalGlow 3s ease-in-out infinite alternate 1s;
+}
+
+@keyframes crystalGlow {
+  from { opacity: 0.5; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1.15); }
+}
+
+/* =========================================================
+   BIOMA 4: ROTA 21 (BATALHA AQUÁTICA / OCEANO DE KANTO)
+   ========================================================= */
+.encounter-arena.habitat-water .scenery-sky-layer {
+  background: linear-gradient(180deg, #0284c7 0%, #38bdf8 45%, #bae6fd 70%, #f0f9ff 100%);
+}
+
+.encounter-arena.habitat-water .scenery-horizon-layer {
+  background: 
+    radial-gradient(ellipse 40% 15% at 30% 52%, rgba(14, 165, 233, 0.4) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 20% at 75% 53%, rgba(2, 132, 199, 0.4) 0%, transparent 80%);
+}
+
+.encounter-arena.habitat-water .scenery-ground-layer {
+  top: 50%;
+  height: 50%;
+  background: 
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.12) 0, rgba(255, 255, 255, 0.12) 2px, transparent 2px, transparent 18px),
+    linear-gradient(180deg, #0284c7 0%, #0369a1 35%, #075985 70%, #082f49 100%);
+  border-top: 4px solid #7dd3fc;
+  box-shadow: inset 0 8px 20px rgba(2, 132, 199, 0.6);
+  animation: oceanWaves 4s ease-in-out infinite alternate;
+}
+
+@keyframes oceanWaves {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* =========================================================
+   BIOMA 5: USINA ELÉTRICA (COMPLEXO INDUSTRIAL & NEON)
+   ========================================================= */
+.encounter-arena.habitat-powerplant .scenery-sky-layer {
+  background: linear-gradient(180deg, #18181b 0%, #27272a 45%, #3f3f46 70%, #27272a 100%);
+}
+
+.encounter-arena.habitat-powerplant .scenery-horizon-layer {
+  background: 
+    repeating-linear-gradient(90deg, rgba(250, 204, 21, 0.15) 0, rgba(250, 204, 21, 0.15) 20px, transparent 20px, transparent 40px);
+}
+
+.encounter-arena.habitat-powerplant .scenery-ground-layer {
+  top: 52%;
+  height: 48%;
+  background: 
+    repeating-linear-gradient(45deg, #27272a 0, #27272a 12px, #18181b 12px, #18181b 24px);
+  border-top: 4px solid #facc15;
+  box-shadow: 0 -4px 18px rgba(250, 204, 21, 0.35);
+}
+
+.encounter-arena.habitat-powerplant .scenery-sparkle.sparkle-1 {
+  position: absolute;
+  top: 35%;
+  left: 18%;
+  width: 4px;
+  height: 40px;
+  background: #facc15;
+  box-shadow: 0 0 12px #facc15, 0 0 24px #facc15;
+  animation: electricArc 1.2s infinite;
+}
+
+.encounter-arena.habitat-powerplant .scenery-sparkle.sparkle-2 {
+  position: absolute;
+  top: 28%;
+  right: 22%;
+  width: 4px;
+  height: 50px;
+  background: #38bdf8;
+  box-shadow: 0 0 12px #38bdf8, 0 0 24px #38bdf8;
+  animation: electricArc 0.9s infinite 0.4s;
+}
+
+@keyframes electricArc {
+  0%, 100% { opacity: 0; transform: scaleY(0.2); }
+  50% { opacity: 1; transform: scaleY(1.2) rotate(15deg); }
+}
+
+/* =========================================================
+   BIOMA 6: CAVERNA CERULEAN (COVIL LENDÁRIO & MEWTWO)
+   ========================================================= */
+.encounter-arena.habitat-cerulean .scenery-sky-layer {
+  background: radial-gradient(ellipse at 50% 30%, #581c87 0%, #3b0764 45%, #1e0338 80%, #0f001d 100%);
+}
+
+.encounter-arena.habitat-cerulean .scenery-light-shafts {
+  background: 
+    radial-gradient(circle at 50% 45%, rgba(192, 132, 252, 0.3) 0%, transparent 60%),
+    radial-gradient(circle at 80% 35%, rgba(244, 114, 182, 0.25) 0%, transparent 50%);
+  animation: psychicHaze 4s ease-in-out infinite alternate;
+}
+
+@keyframes psychicHaze {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  100% { transform: scale(1.05); opacity: 1; }
+}
+
+.encounter-arena.habitat-cerulean .scenery-ground-layer {
+  top: 54%;
+  height: 46%;
+  background: linear-gradient(180deg, #3b0764 0%, #2e0854 45%, #18022b 85%, #08000f 100%);
+  border-top: 3px solid #c084fc;
+  box-shadow: 0 -4px 20px rgba(192, 132, 252, 0.4);
+}
+
+.encounter-arena.habitat-cerulean .scenery-sparkle.sparkle-1 {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e879f9;
+  box-shadow: 0 0 20px #e879f9, 0 0 35px #a855f7;
+  animation: orbFloat 3s ease-in-out infinite alternate;
+}
+
+.encounter-arena.habitat-cerulean .scenery-sparkle.sparkle-2 {
+  position: absolute;
+  top: 28%;
+  right: 18%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #c084fc;
+  box-shadow: 0 0 18px #c084fc, 0 0 30px #9333ea;
+  animation: orbFloat 4s ease-in-out infinite alternate 1.5s;
+}
+
+@keyframes orbFloat {
+  0% { transform: translateY(0) scale(0.9); }
+  100% { transform: translateY(-16px) scale(1.15); }
+}
+
+.arena-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 2;
+}
+
+.habitat-indicator {
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.berry-status-tag {
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid var(--primary-yellow);
+  color: var(--primary-yellow);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+}
+
+/* Estado Idle (Grama Alta) */
+.arena-idle-view {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 2;
+  padding: 40px 20px;
+}
+
+.idle-grass-box {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  max-width: 440px;
+  box-shadow: var(--shadow-md);
+}
+
+.idle-grass-anim {
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+  animation: swayGrass 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes swayGrass {
+  0% { transform: rotate(-6deg); }
+  100% { transform: rotate(6deg); }
+}
+
+.idle-grass-box h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.idle-grass-box p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.search-action-btn {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 1rem;
+}
+
+/* Estado de Encontro Ativo */
+.arena-active-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.wild-hud-card {
+  align-self: flex-start;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 12px 18px;
+  min-width: 240px;
+  box-shadow: var(--shadow-sm);
+  animation: slideInDown 0.35s ease-out;
+}
+
+@keyframes slideInDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.wild-hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  gap: 12px;
+}
+
+.wild-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+.wild-level {
+  font-size: 0.85rem;
+  color: var(--primary-yellow);
+  font-weight: 700;
+}
+
+.wild-caught-stamp {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid var(--primary-green);
+  color: #86efac;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.wild-types-row {
+  display: flex;
+  gap: 6px;
+}
+
+.type-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.type-badge.large {
+  font-size: 0.8rem;
+  padding: 5px 12px;
+}
+
+.type-badge.unk {
+  background: #475569;
+  color: #cbd5e1;
+}
+
+/* Palco de Batalha & Sprite */
+/* Palco de Batalha & Pedestal 3D */
+.battle-stage-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 250px;
+  padding-bottom: 25px;
+  margin-top: 10px;
+  z-index: 2;
+}
+
+/* Pedestal 3D em Perspectiva dos Jogos */
+.pokemon-battle-pedestal {
+  position: absolute;
+  bottom: 12px;
+  width: 270px;
+  height: 64px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.pedestal-shadow {
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 290px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 75%);
+}
+
+.pedestal-base {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #713f12;
+  box-shadow: 0 10px 0 #452408;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  transition: all 0.5s ease;
+}
+
+.pedestal-top {
+  width: 100%;
+  height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #4ade80 0%, #22c55e 55%, #16a34a 100%);
+  border: 2px solid #86efac;
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.4);
+  transition: all 0.5s ease;
+}
+
+/* Pedestal Específico por Bioma */
+.encounter-arena.habitat-route1 .pedestal-base {
+  background: #854d0e;
+  box-shadow: 0 10px 0 #543109;
+}
+.encounter-arena.habitat-route1 .pedestal-top {
+  background: linear-gradient(180deg, #4ade80 0%, #22c55e 50%, #15803d 100%);
+  border-color: #86efac;
+}
+
+.encounter-arena.habitat-viridian .pedestal-base {
+  background: #1c1917;
+  box-shadow: 0 10px 0 #0c0a09;
+}
+.encounter-arena.habitat-viridian .pedestal-top {
+  background: linear-gradient(180deg, #15803d 0%, #14532d 55%, #052e16 100%);
+  border-color: #4ade80;
+}
+
+.encounter-arena.habitat-mtmoon .pedestal-base {
+  background: #334155;
+  box-shadow: 0 10px 0 #1e293b, 0 0 15px rgba(56, 189, 248, 0.3);
+}
+.encounter-arena.habitat-mtmoon .pedestal-top {
+  background: linear-gradient(180deg, #64748b 0%, #475569 55%, #334155 100%);
+  border-color: #94a3b8;
+}
+
+.encounter-arena.habitat-water .pedestal-base {
+  background: #0369a1;
+  box-shadow: 0 10px 0 #075985, 0 0 25px rgba(56, 189, 248, 0.6);
+}
+.encounter-arena.habitat-water .pedestal-top {
+  background: radial-gradient(circle, #38bdf8 0%, #0284c7 60%, #0369a1 100%);
+  border-color: #e0f2fe;
+}
+
+.encounter-arena.habitat-powerplant .pedestal-base {
+  background: #27272a;
+  box-shadow: 0 10px 0 #18181b, 0 0 20px rgba(250, 204, 21, 0.5);
+}
+.encounter-arena.habitat-powerplant .pedestal-top {
+  background: radial-gradient(circle, #52525b 0%, #3f3f46 60%, #27272a 100%);
+  border: 3px solid #facc15;
+}
+
+.encounter-arena.habitat-cerulean .pedestal-base {
+  background: #3b0764;
+  box-shadow: 0 10px 0 #1e0338, 0 0 30px rgba(192, 132, 252, 0.6);
+}
+.encounter-arena.habitat-cerulean .pedestal-top {
+  background: radial-gradient(circle, #a855f7 0%, #7e22ce 55%, #581c87 100%);
+  border-color: #e879f9;
+}
+
+.wild-sprite {
+  width: 175px;
+  height: 175px;
+  object-fit: contain;
+  filter: drop-shadow(0 14px 16px rgba(0, 0, 0, 0.65));
+  z-index: 3;
+  margin-bottom: 8px;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.wild-sprite.enter-anim {
+  animation: enterBounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes enterBounce {
+  0% { transform: scale(0) translateY(60px); opacity: 0; }
+  70% { transform: scale(1.1) translateY(-10px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.wild-sprite.absorb-anim {
+  animation: absorbIntoBall 0.35s ease-in forwards;
+}
+
+@keyframes absorbIntoBall {
+  0% { transform: scale(1); filter: brightness(3) drop-shadow(0 0 20px #ff3b4e); opacity: 1; }
+  100% { transform: scale(0.05) translateY(50px); opacity: 0; }
+}
+
+.wild-sprite.angry-anim {
+  animation: angryShake 0.4s ease;
+}
+
+@keyframes angryShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-12px) rotate(-6deg); }
+  75% { transform: translateX(12px) rotate(6deg); }
+}
+
+/* Ator da Pokébola (Arremesso e Wobble) */
+.pokeball-actor {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  z-index: 5;
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.5));
+}
+
+.pokeball-actor.hidden {
+  display: none;
+}
+
+.pokeball-actor.throw-anim {
+  animation: throwTrajectory 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+@keyframes throwTrajectory {
+  0% {
+    bottom: -60px;
+    left: 20%;
+    transform: scale(0.6) rotate(0deg);
+  }
+  50% {
+    bottom: 120px;
+    left: 45%;
+    transform: scale(1.3) rotate(360deg);
+  }
+  100% {
+    bottom: 60px;
+    left: 50%;
+    transform: translate(-50%, 0) scale(1) rotate(720deg);
+  }
+}
+
+.pokeball-actor.ground-rest {
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.pokeball-actor.shake-anim {
+  bottom: 25px;
+  left: 50%;
+  animation: pokeballShake 0.5s ease-in-out;
+}
+
+@keyframes pokeballShake {
+  0% { transform: translateX(-50%) rotate(0deg); }
+  25% { transform: translateX(-50%) rotate(-28deg); }
+  50% { transform: translateX(-50%) rotate(28deg); }
+  75% { transform: translateX(-50%) rotate(-12deg); }
+  100% { transform: translateX(-50%) rotate(0deg); }
+}
+
+.pokeball-actor.caught-anim {
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: caughtSparkle 0.8s ease-out forwards;
+}
+
+@keyframes caughtSparkle {
+  0% { transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 10px #facc15); }
+  50% { transform: translateX(-50%) scale(1.2); filter: drop-shadow(0 0 30px #facc15); }
+  100% { transform: translateX(-50%) scale(1); filter: drop-shadow(0 0 15px #facc15); }
+}
+
+.pokeball-actor.breakout-anim {
+  bottom: 25px;
+  left: 50%;
+  animation: breakoutPop 0.35s ease-out forwards;
+}
+
+@keyframes breakoutPop {
+  0% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50% { transform: translateX(-50%) scale(1.5); filter: brightness(2); }
+  100% { transform: translateX(-50%) scale(2); opacity: 0; }
+}
+
+/* Medidor de Chance de Captura */
+.catch-gauge-container {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  max-width: 320px;
+  margin-top: 10px;
+}
+
+.gauge-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.gauge-label-row strong {
+  color: var(--text-primary);
+}
+
+.gauge-bar-track {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.gauge-bar-fill {
+  height: 100%;
+  width: 50%;
+  background: var(--primary-yellow);
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* =========================================================
+   PAINEL DE CONTROLE DE CAPTURA & MOCHILA
+   ========================================================= */
+
+.capture-control-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.section-title {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.balls-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.ball-slot {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  text-align: left;
+}
+
+.ball-slot:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.ball-slot.selected {
+  background: rgba(255, 59, 78, 0.15);
+  border-color: var(--primary-red);
+  box-shadow: var(--glow-red);
+}
+
+.ball-slot img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.ball-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.ball-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.ball-mult {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.ball-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: var(--bg-dark);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+}
+
+/* Frutas */
+.berries-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+}
+
+.berry-slot {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  text-align: left;
+}
+
+.berry-slot:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.berry-icon {
+  font-size: 1.5rem;
+}
+
+.berry-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.berry-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.berry-desc {
+  font-size: 0.72rem;
+  color: #86efac;
+}
+
+.berry-badge {
+  margin-left: auto;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* Botões de Ação */
+.action-buttons-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff3b4e 0%, #e11d48 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 15px 24px;
+  font-family: var(--font-main);
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 59, 78, 0.4);
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff1f34 0%, #be123c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(255, 59, 78, 0.55);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.catch-action-btn {
+  flex: 3;
+}
+
+.pulse-action {
+  animation: pulseButton 2s infinite;
+}
+
+@keyframes pulseButton {
+  0%, 100% { box-shadow: 0 4px 15px rgba(255, 59, 78, 0.4); }
+  50% { box-shadow: 0 4px 28px rgba(255, 59, 78, 0.75); }
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 15px 20px;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  flex: 1;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+kbd {
+  background: rgba(0, 0, 0, 0.35);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-family: monospace;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================================
+   POKÉDEX (151 POKÉMON)
+   ========================================================= */
+
+.pokedex-dashboard-header {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pokedex-stats-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pokedex-stats-top h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.pokedex-counter-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.caught-highlight {
+  color: var(--primary-yellow);
+}
+
+.pokedex-progress-track {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.pokedex-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #10b981, #facc15);
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+}
+
+.pokedex-filters-bar {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-input-box {
+  flex: 2;
+  min-width: 240px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-input-box input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.search-input-box input::placeholder {
+  color: var(--text-muted);
+}
+
+.filter-controls-group {
+  flex: 3;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-dropdown {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  padding: 10px 14px;
+  outline: none;
+  cursor: pointer;
+}
+
+.status-filters-pills {
+  display: flex;
+  gap: 6px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+
+.status-filter-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.status-filter-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* Grade de Cards da Pokédex */
+.pokedex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 16px;
+}
+
+.pokedex-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.pokedex-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-theme, #ff3b4e);
+}
+
+.pokedex-card:hover {
+  transform: translateY(-4px);
+  background: var(--bg-card-hover);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: var(--shadow-md);
+}
+
+.card-top {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  margin-bottom: 6px;
+}
+
+.card-id {
+  font-family: var(--font-retro);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.caught-tag {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+}
+
+.card-img-wrapper {
+  width: 105px;
+  height: 105px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 6px 0 10px 0;
+}
+
+.card-img-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.pokedex-card:hover .card-img-wrapper img {
+  transform: scale(1.1);
+}
+
+.card-info {
+  width: 100%;
+}
+
+.card-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-types {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.empty-pokedex {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+/* =========================================================
+   MODAIS (POKÉDEX DETALHADA & GOTCHA!)
+   ========================================================= */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-card {
+  background: #141b2a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+  max-width: 600px;
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+  padding: 24px;
+  position: relative;
+  transform: scale(0.95);
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-backdrop.active .modal-card {
+  transform: scale(1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.modal-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.modal-number {
+  font-family: var(--font-retro);
+  font-size: 0.85rem;
+  color: var(--primary-yellow);
+}
+
+.modal-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.modal-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: var(--text-secondary);
+  font-size: 1.4rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 20px;
+}
+
+.modal-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.modal-sprite-box {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.01) 70%);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.modal-artwork {
+  max-width: 140px;
+  max-height: 140px;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 14px rgba(0, 0, 0, 0.5));
+}
+
+.modal-showdown-anim {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.modal-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-status-indicator {
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+}
+
+.status-caught {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.status-uncaught {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-secondary);
+}
+
+.modal-desc {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.modal-stats {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.modal-stats h4 {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  margin-bottom: 6px;
+}
+
+.stat-name {
+  width: 50px;
+  color: var(--text-secondary);
+}
+
+.stat-bar-bg {
+  flex: 1;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+}
+
+.stat-bar-fill.hp { background: #22c55e; }
+.stat-bar-fill.atk { background: #ef4444; }
+.stat-bar-fill.def { background: #3b82f6; }
+
+.stat-val {
+  width: 25px;
+  text-align: right;
+  font-weight: 700;
+}
+
+.modal-habitat-tag {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+/* Modal Gotcha! */
+.gotcha-card {
+  max-width: 440px;
+  text-align: center;
+  border-color: rgba(250, 204, 21, 0.4);
+  box-shadow: 0 0 35px rgba(250, 204, 21, 0.25);
+  animation: gotchaPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes gotchaPop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.gotcha-badge {
+  display: inline-block;
+  background: var(--primary-yellow);
+  color: #1e1e1e;
+  font-family: var(--font-retro);
+  font-size: 0.75rem;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 10px;
+}
+
+.gotcha-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.gotcha-artwork-box {
+  margin: 16px auto;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gotcha-img {
+  max-width: 140px;
+  max-height: 140px;
+  object-fit: contain;
+  animation: bounceCelebration 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes bounceCelebration {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8px) scale(1.05); }
+}
+
+.gotcha-details {
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  margin-bottom: 18px;
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.gotcha-pokedex-count {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--primary-yellow);
+}
+
+.gotcha-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.pulse-btn {
+  flex: 2;
+}
+
+/* =========================================================
+   TOAST NOTIFICATIONS
+   ========================================================= */
+
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 200;
+  pointer-events: none;
+}
+
+.toast-notification {
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  padding: 12px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.88rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  animation: toastSlideIn 0.3s ease-out;
+  pointer-events: auto;
+  max-width: 380px;
+}
+
+.toast-notification.fade-out {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+@keyframes toastSlideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* =========================================================
+   SISTEMA DE ARMAZENAMENTO POKÉMON (PC DO BILL / BOXES)
+   ========================================================= */
+
+.pc-terminal-header {
+  background: var(--bg-card);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 10px 30px -5px rgba(59, 130, 246, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.pc-terminal-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #06b6d4, #10b981);
+}
+
+.pc-title-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.pc-system-name {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pc-icon-badge {
+  width: 46px;
+  height: 46px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.3);
+}
+
+.pc-system-name h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.pc-system-name p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.pc-stats-pill {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pc-pill-lbl {
+  color: var(--text-secondary);
+}
+
+.pc-pill-num {
+  color: #60a5fa;
+  font-size: 1.05rem;
+}
+
+.pc-controls-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.pc-box-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.pc-sub-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.box-tab-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  padding: 6px 14px;
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.box-tab-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.box-tab-pill.active {
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: #fff;
+  border-color: #60a5fa;
+  box-shadow: 0 0 15px rgba(37, 99, 235, 0.4);
+}
+
+.pc-search-sort-group {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-input-box.compact {
+  min-width: 220px;
+  padding: 8px 12px;
+}
+
+/* Grade de Armazenamento do PC */
+.pc-grid-storage {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
+}
+
+.pc-pokemon-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.pc-pokemon-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-accent, #3b82f6);
+}
+
+.pc-pokemon-card:hover {
+  transform: translateY(-4px);
+  background: var(--bg-card-hover);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+
+.pc-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.pc-pkmn-lvl {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--primary-yellow);
+}
+
+.pc-ball-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.pc-sprite-container {
+  width: 100%;
+  height: 95px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+}
+
+.pc-sprite-container img {
+  max-width: 85px;
+  max-height: 85px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+  transition: transform 0.2s ease;
+}
+
+.pc-pokemon-card:hover .pc-sprite-container img {
+  transform: scale(1.12);
+}
+
+.pc-card-body {
+  text-align: center;
+}
+
+.pc-pkmn-nickname {
+  font-size: 0.95rem;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pc-pkmn-species {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.pc-types-row {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+}
+
+.type-badge-mini {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.empty-pc-box {
+  grid-column: 1 / -1;
+  background: var(--bg-card);
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-lg);
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-pc-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  opacity: 0.6;
+}
+
+.empty-pc-box h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.empty-pc-box p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Modal do PC */
+.pc-stage {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+}
+
+.original-species {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.pc-log-box {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pc-log-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+}
+
+.log-label {
+  color: var(--text-secondary);
+}
+
+.log-val {
+  font-weight: 700;
+}
+
+.text-yellow {
+  color: var(--primary-yellow);
+}
+
+.pc-inspect-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn-pc-action {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.rename-btn {
+  background: rgba(59, 130, 246, 0.18);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #93c5fd;
+}
+
+.rename-btn:hover {
+  background: rgba(59, 130, 246, 0.3);
+  color: #fff;
+}
+
+.release-btn {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+}
+
+.release-btn:hover {
+  background: rgba(239, 68, 68, 0.28);
+  color: #fff;
+}
+
+/* =========================================================
+   POPUPS DE DIÁLOGO CUSTOMIZADOS (SOLTAR E RENOMEAR)
+   ========================================================= */
+
+.dialog-popup-card {
+  max-width: 440px;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  background: #151d2d;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), 0 0 25px rgba(59, 130, 246, 0.2);
+  animation: dialogPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes dialogPop {
+  from { transform: scale(0.88); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.dialog-popup-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 12px;
+}
+
+.dialog-popup-icon {
+  font-size: 1.6rem;
+}
+
+.dialog-popup-header h3 {
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.dialog-pokemon-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.dialog-preview-sprite {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+}
+
+.dialog-main-question {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+}
+
+.dialog-reward-notice {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #86efac;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  width: 100%;
+}
+
+.dialog-hint-text {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.dialog-text-input {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  outline: none;
+  transition: var(--transition);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+  margin-bottom: 20px;
+}
+
+.dialog-text-input:focus {
+  border-color: #60a5fa;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+}
+
+.dialog-popup-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.cancel-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-secondary);
+}
+
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+/* =========================================================
+   POKÉ MART (LOJA POKÉMON CLÁSSICA)
+   ========================================================= */
+
+.shop-terminal-header {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-bottom: 24px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: var(--shadow-md);
+  position: relative;
+  overflow: hidden;
+}
+
+.shop-terminal-header::after {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.shop-clerk-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+}
+
+.clerk-avatar-box {
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(16, 185, 129, 0.3));
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.clerk-dialog-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.clerk-name-tag {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #60a5fa;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.clerk-speech {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.shop-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.shop-balance-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+}
+
+.balance-label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.balance-val {
+  font-size: 1.15rem;
+  color: var(--primary-yellow);
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.shop-mode-selector {
+  display: flex;
+  gap: 8px;
+}
+
+.shop-tab-pill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.shop-tab-pill:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.shop-tab-pill.active {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-color: #60a5fa;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+}
+
+/* Grade de Itens da Loja */
+.shop-items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.shop-item-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: var(--transition);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.shop-item-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59, 130, 246, 0.45);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(59, 130, 246, 0.15);
+}
+
+.shop-item-card.disabled {
+  opacity: 0.85;
+}
+
+.shop-card-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.shop-card-badge.ball {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+}
+
+.shop-card-badge.berry {
+  background: rgba(34, 197, 94, 0.2);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.shop-item-icon-box {
+  width: 72px;
+  height: 72px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  margin: 0 auto 14px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.shop-item-icon {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.4));
+  transition: transform 0.25s ease;
+}
+
+.shop-item-card:hover .shop-item-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.shop-item-info {
+  text-align: center;
+  margin-bottom: 12px;
+  min-height: 72px;
+}
+
+.shop-item-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.shop-item-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.shop-stock-pill {
+  display: flex;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.shop-stock-pill strong {
+  color: #93c5fd;
+}
+
+.shop-price-tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.price-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.price-val {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--primary-yellow);
+}
+
+.shop-qty-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.qty-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.qty-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.qty-input {
+  width: 50px;
+  height: 32px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  text-align: center;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 700;
+  outline: none;
+}
+
+.quick-qty-presets {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.preset-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.preset-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.shop-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.shop-total-row strong {
+  font-size: 1rem;
+  color: var(--primary-yellow);
+}
+
+.btn-shop-action {
+  width: 100%;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-shop-action.buy {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-shop-action.buy:hover {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45);
+}
+
+.btn-shop-action.sell {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.btn-shop-action.sell:hover {
+  background: linear-gradient(135deg, #34d399, #10b981);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45);
+}
+
+.shop-item-card.disabled .btn-shop-action {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* =========================================================
+   FIREBASE CLOUD INTEGRATION & MODAL
+   ========================================================= */
+
+.sidebar-cloud-btn {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+}
+
+.sidebar-cloud-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  padding: 6px 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.sidebar-cloud-btn:hover .sidebar-cloud-badge {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.status-dot.online {
+  background: #10b981;
+  box-shadow: 0 0 8px #10b981;
+}
+
+.status-dot.syncing {
+  background: #facc15;
+  box-shadow: 0 0 8px #facc15;
+  animation: pulseDot 1s infinite alternate;
+}
+
+.status-dot.offline {
+  background: #94a3b8;
+}
+
+@keyframes pulseDot {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+.sidebar-cloud-badge.online {
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #86efac;
+}
+
+/* Modal do Firebase Cloud */
+.cloud-modal-card {
+  max-width: 520px;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.cloud-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cloud-status-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+.cloud-status-icon-box {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(16, 185, 129, 0.25));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+}
+
+.cloud-status-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cloud-status-details h4 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.cloud-status-details p {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.trainer-cloud-id-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.trainer-cloud-id-row code {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  color: var(--primary-yellow);
+  font-family: monospace;
+  font-weight: 700;
+}
+
+.copy-id-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.copy-id-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.cloud-action-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.btn-cloud-action {
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-cloud-action.save-btn {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
+
+.btn-cloud-action.save-btn:hover {
+  background: linear-gradient(135deg, #60a5fa, #2563eb);
+  transform: translateY(-2px);
+}
+
+.btn-cloud-action.load-btn {
+  background: linear-gradient(135deg, #10b981, #047857);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+}
+
+.btn-cloud-action.load-btn:hover {
+  background: linear-gradient(135deg, #34d399, #059669);
+  transform: translateY(-2px);
+}
+
+/* Configurações Expansíveis */
+.cloud-config-details {
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+}
+
+.cloud-config-summary {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #93c5fd;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+}
+
+.cloud-config-form {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-instructions {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.config-instructions a {
+  color: #60a5fa;
+  text-decoration: underline;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-field label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.form-field input {
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+.form-field input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* =========================================================
+   SISTEMA DE AUTENTICAÇÃO E LOGIN DE TREINADOR
+   ========================================================= */
+
+.trainer-profile-card {
+  cursor: pointer;
+  position: relative;
+  transition: var(--transition);
+}
+
+.trainer-profile-card:hover {
+  background: rgba(15, 23, 42, 0.95);
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.2);
+}
+
+.btn-trainer-auth {
+  margin-left: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.btn-trainer-auth:hover {
+  background: rgba(59, 130, 246, 0.3);
+  border-color: #60a5fa;
+  transform: scale(1.1);
+}
+
+/* Modal de Autenticação */
+.auth-modal-card {
+  max-width: 460px;
+  border-radius: var(--radius-lg);
+  padding: 24px;
+}
+
+.auth-tabs-nav {
+  display: flex;
+  gap: 8px;
+  background: rgba(15, 23, 42, 0.8);
+  padding: 4px;
+  border-radius: var(--radius-full);
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.auth-tab-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: var(--radius-full);
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.auth-tab-btn.active {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.35);
+}
+
+.auth-modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Seletor de Avatar */
+.auth-avatar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.avatar-options-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+
+.avatar-option-btn {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 8px 4px;
+  color: var(--text-secondary);
+  font-family: var(--font-main);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: var(--transition);
+}
+
+.avatar-option-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.avatar-option-btn.active {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: #60a5fa;
+  color: #fff;
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Campos do Formulário */
+.auth-creds-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-input-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.auth-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.auth-input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 1rem;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.auth-text-input {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-md);
+  padding: 12px 14px 12px 42px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+.auth-text-input:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
+
+.auth-submit-btn {
+  padding: 13px;
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+.auth-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 4px 0;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-divider span {
+  padding: 0 12px;
+}
+
+.guest-login-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cbd5e1;
+}
+
+.guest-login-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.auth-switch-prompt {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.auth-switch-prompt a {
+  color: #60a5fa;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Visualização de Perfil Logado */
+.auth-profile-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-info-box {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.profile-badge {
+  display: inline-block;
+  align-self: center;
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #86efac;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+
+.profile-info-box h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.profile-info-box p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.btn-logout {
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-logout:hover {
+  background: rgba(239, 68, 68, 0.32);
+  color: #fff;
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+@media (max-width: 992px) {
+  .app-layout {
+    flex-direction: column;
+    padding: 10px;
+    gap: 0;
+  }
+
+  .mobile-top-bar {
+    display: flex;
+  }
+
+  .game-sidebar {
+    position: fixed;
+    top: 0;
+    left: -320px;
+    bottom: 0;
+    width: 290px;
+    height: 100vh;
+    border-radius: 0;
+    border-right: 1px solid var(--bg-card-border);
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+  }
+
+  .game-sidebar.open {
+    left: 0;
+  }
+
+  .sidebar-close-btn {
+    display: flex;
+  }
+
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .sidebar-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-body {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-sprite-box {
+    width: 140px;
+    height: 140px;
+  }
+
+  .action-buttons-group {
+    flex-direction: column;
+  }
+
+  .btn-secondary {
+    width: 100%;
+  }
+
+  .pokedex-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  }
+}

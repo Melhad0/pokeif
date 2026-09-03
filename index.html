@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokémon Kanto - Caçador dos 151 Originais</title>
+  <meta name="description" content="Jogo web de captura dos 151 Pokémon originais da 1ª Geração de Kanto. Explore diferentes rotas, arremesse Pokébolas e complete sua Pokédex!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" type="image/png">
+</head>
+<body>
+  <div id="app-root" class="app-layout">
+    <!-- Barra Superior Mobile (Exibida em telas menores) -->
+    <header class="mobile-top-bar">
+      <button id="btn-toggle-sidebar" class="hamburger-btn" aria-label="Abrir Menu Lateral">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="mobile-brand">
+        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Pokébola" class="mobile-logo-icon">
+        <span class="mobile-brand-title">POKÉMON <strong>KANTO</strong></span>
+      </div>
+      <div class="mobile-quick-stats">
+        <span id="mobile-pokedex-count" class="mobile-pill">0/151</span>
+      </div>
+    </header>
+
+    <!-- SIDEBAR LATERAL DE FUNÇÕES -->
+    <aside id="game-sidebar" class="game-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <div class="logo-icon-box">
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Pokébola" class="header-logo-icon">
+          </div>
+          <div class="brand-text">
+            <h1 class="brand-title">POKÉMON</h1>
+            <span class="brand-subtitle">KANTO 151</span>
+          </div>
+        </div>
+        <button id="btn-close-sidebar" class="sidebar-close-btn" aria-label="Fechar Menu">×</button>
+      </div>
+
+      <!-- Perfil do Treinador -->
+      <div class="trainer-profile-card" id="trainer-profile-card" onclick="fbService.openAuthModal()" title="Gerenciar Conta de Treinador (Login / Perfil)">
+        <div class="trainer-avatar" id="sidebar-trainer-avatar">🧢</div>
+        <div class="trainer-details">
+          <span class="trainer-name" id="sidebar-trainer-name">Treinador Kanto</span>
+          <span class="trainer-rank" id="sidebar-trainer-rank">Treinador Convidado</span>
+        </div>
+        <button id="btn-trainer-auth" class="btn-trainer-auth" onclick="event.stopPropagation(); fbService.openAuthModal();" title="Fazer Login / Cadastrar">
+          <span id="trainer-auth-icon">🔑</span>
+        </button>
+      </div>
+
+      <!-- Status e Acesso à Nuvem Firebase -->
+      <button id="sidebar-cloud-btn" class="sidebar-cloud-btn" onclick="fbService.openCloudModal()" title="Gerenciar sincronização na Nuvem Firebase">
+        <div id="sidebar-cloud-badge" class="sidebar-cloud-badge offline">
+          <span class="status-dot offline"></span> Modo Local (Offline)
+        </div>
+      </button>
+
+      <!-- Menu Lateral de Funções -->
+      <nav class="sidebar-nav">
+        <span class="sidebar-section-label">Funções do Jogo</span>
+
+        <button class="nav-item-btn active" data-tab="hunt" id="side-tab-hunt">
+          <span class="nav-item-icon">🎯</span>
+          <span class="nav-item-text">Arena de Captura</span>
+        </button>
+
+        <button class="nav-item-btn" data-tab="box" id="side-tab-box">
+          <span class="nav-item-icon">💻</span>
+          <span class="nav-item-text">Box Pokémon (PC)</span>
+          <span id="side-box-counter" class="nav-item-badge">0</span>
+        </button>
+
+        <button class="nav-item-btn" data-tab="pokedex" id="side-tab-pokedex">
+          <span class="nav-item-icon">📖</span>
+          <span class="nav-item-text">Pokédex Kanto</span>
+          <span id="side-pokedex-counter" class="nav-item-badge">0/151</span>
+        </button>
+
+        <button class="nav-item-btn" data-tab="shop" id="side-tab-shop">
+          <span class="nav-item-icon">🏪</span>
+          <span class="nav-item-text">Poké Mart</span>
+          <span id="side-shop-counter" class="nav-item-badge text-yellow">₽ 2.500</span>
+        </button>
+      </nav>
+
+      <!-- Widget de Progresso da Pokédex -->
+      <div class="sidebar-progress-widget">
+        <div class="widget-header">
+          <span>Pokédex de Kanto</span>
+          <strong id="side-progress-pct">0.0%</strong>
+        </div>
+        <div class="widget-bar-bg">
+          <div id="side-progress-fill" class="widget-bar-fill" style="width: 0%;"></div>
+        </div>
+        <span class="widget-sub"><span id="side-caught-val">0</span> de 151 capturados</span>
+      </div>
+
+      <!-- Ações Rápidas no Rodapé da Sidebar -->
+      <div class="sidebar-footer-actions">
+        <button id="btn-claim-supplies" class="sidebar-action-btn supply-btn" title="Receber mais Pokébolas gratuitamente">
+          📦 Suprimentos Carvalho
+        </button>
+        <button id="btn-toggle-audio" class="sidebar-action-btn sound-btn" title="Ativar ou desativar som">
+          🔊 Som: Ligado
+        </button>
+      </div>
+    </aside>
+
+    <!-- Overlay da Sidebar para Mobile -->
+    <div id="sidebar-overlay" class="sidebar-backdrop"></div>
+
+    <!-- ÁREA DE CONTEÚDO PRINCIPAL -->
+    <main class="main-stage">
+      <!-- TAB 1: ARENA DE CAPTURA -->
+      <section id="tab-hunt-panel" class="tab-panel active">
+        <!-- Habitats Selector Bar -->
+        <div class="habitats-container">
+          <span class="habitats-label">Rotas de Kanto:</span>
+          <div class="habitats-scroll-wrapper">
+            <button class="habitat-pill active" data-habitat="route1">🌱 Rota 1 & 2</button>
+            <button class="habitat-pill" data-habitat="viridian">🌲 Floresta Viridian</button>
+            <button class="habitat-pill" data-habitat="mtmoon">⛰️ Mt. Moon</button>
+            <button class="habitat-pill" data-habitat="water">🌊 Rota 21 (Mar)</button>
+            <button class="habitat-pill" data-habitat="powerplant">⚡ Usina Elétrica</button>
+            <button class="habitat-pill" data-habitat="cerulean">✨ Caverna Cerulean</button>
+          </div>
+        </div>
+
+        <!-- Arena de Encontro Visual Autêntica dos Jogos Pokémon -->
+        <div id="encounter-arena" class="encounter-arena habitat-route1" data-habitat="route1">
+          <!-- Cenário de Fundo Autêntico dos Jogos (Battle Environment) -->
+          <div class="arena-scenery-layers">
+            <div class="scenery-sky-layer">
+              <div class="sky-cloud cloud-1"></div>
+              <div class="sky-cloud cloud-2"></div>
+              <div class="sky-cloud cloud-3"></div>
+            </div>
+            <div class="scenery-horizon-layer"></div>
+            <div class="scenery-ground-layer"></div>
+            <div class="scenery-decor-props">
+              <div class="decor-tree tree-left"></div>
+              <div class="decor-tree tree-right"></div>
+              <div class="scenery-grass-blade blade-1"></div>
+              <div class="scenery-grass-blade blade-2"></div>
+              <div class="scenery-grass-blade blade-3"></div>
+              <div class="scenery-sparkle sparkle-1"></div>
+              <div class="scenery-sparkle sparkle-2"></div>
+            </div>
+            <div class="scenery-light-shafts"></div>
+          </div>
+
+          <!-- Header da Arena -->
+          <div class="arena-top-bar">
+            <span id="current-habitat-name" class="habitat-indicator">🌱 Rota 1 & 2 (Planície)</span>
+            <div id="berry-status-tag" class="berry-status-tag" style="display: none;"></div>
+          </div>
+
+          <!-- Estado 1: Idle (Sem Encontro) -->
+          <div id="idle-arena-view" class="arena-idle-view">
+            <div class="radar-pulse"></div>
+            <div class="idle-grass-box">
+              <div class="idle-grass-anim">🌾 🌿 🌾</div>
+              <h3>Explore a Grama Alta de Kanto</h3>
+              <p>Procure por espécies selvagens para arremessar suas Pokébolas!</p>
+              <button id="btn-search-wild" class="btn-primary search-action-btn">
+                🔍 Procurar Pokémon Selvagem <kbd>Espaço</kbd>
+              </button>
+            </div>
+          </div>
+
+          <!-- Estado 2: Encontro Ativo -->
+          <div id="active-encounter-view" class="arena-active-view hidden">
+            <!-- Informações do Pokémon Selvagem -->
+            <div class="wild-hud-card">
+              <div class="wild-hud-header">
+                <div>
+                  <h3 id="wild-pokemon-name" class="wild-name">Bulbasaur</h3>
+                  <span id="wild-pokemon-level" class="wild-level">Nv. 5</span>
+                </div>
+                <span id="wild-caught-indicator" class="wild-caught-stamp" style="display: none;">
+                  ★ Capturado
+                </span>
+              </div>
+              <div id="wild-pokemon-types" class="wild-types-row"></div>
+            </div>
+
+            <!-- Palco de Batalha & Sprite do Pokémon -->
+            <div class="battle-stage-area">
+              <div class="pokemon-battle-pedestal">
+                <div class="pedestal-shadow"></div>
+                <div class="pedestal-base">
+                  <div class="pedestal-top"></div>
+                </div>
+              </div>
+              <img id="wild-pokemon-sprite" class="wild-sprite" alt="Pokémon Selvagem" src="">
+              <img id="pokeball-actor" class="pokeball-actor hidden" alt="Pokébola" src="">
+            </div>
+
+            <!-- Medidor de Chance de Captura -->
+            <div class="catch-gauge-container">
+              <div class="gauge-label-row">
+                <span>Chance de Captura estimada:</span>
+                <strong id="catch-probability-label">Média (~45%)</strong>
+              </div>
+              <div class="gauge-bar-track">
+                <div id="catch-probability-meter" class="gauge-bar-fill"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Painel de Controles e Mochila de Captura -->
+        <div class="capture-control-panel">
+          <!-- Seleção de Pokébolas -->
+          <div class="control-section">
+            <span class="section-title">Escolha sua Pokébola:</span>
+            <div class="balls-grid">
+              <button class="ball-slot selected" data-ball="poke">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/poke-ball.png" alt="Poké Ball">
+                <div class="ball-meta">
+                  <span class="ball-name">Poké Ball</span>
+                  <span class="ball-mult">1.0x</span>
+                </div>
+                <span id="count-pokeball" class="ball-badge">25</span>
+              </button>
+
+              <button class="ball-slot" data-ball="great">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/great-ball.png" alt="Great Ball">
+                <div class="ball-meta">
+                  <span class="ball-name">Great Ball</span>
+                  <span class="ball-mult">1.5x</span>
+                </div>
+                <span id="count-greatball" class="ball-badge">12</span>
+              </button>
+
+              <button class="ball-slot" data-ball="ultra">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/ultra-ball.png" alt="Ultra Ball">
+                <div class="ball-meta">
+                  <span class="ball-name">Ultra Ball</span>
+                  <span class="ball-mult">2.2x</span>
+                </div>
+                <span id="count-ultraball" class="ball-badge">5</span>
+              </button>
+
+              <button class="ball-slot" data-ball="master">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png" alt="Master Ball">
+                <div class="ball-meta">
+                  <span class="ball-name">Master Ball</span>
+                  <span class="ball-mult">100%</span>
+                </div>
+                <span id="count-masterball" class="ball-badge">1</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Frutas e Utilitários -->
+          <div class="control-section">
+            <span class="section-title">Frutas & Estratégia:</span>
+            <div class="berries-row">
+              <button class="berry-slot" data-berry="razz" title="Aumenta a chance de captura em 40%">
+                <span class="berry-icon">🍓</span>
+                <div class="berry-meta">
+                  <span class="berry-name">Fruta Frambo</span>
+                  <span class="berry-desc">+40% Taxa</span>
+                </div>
+                <span id="count-razz" class="berry-badge">8</span>
+              </button>
+
+              <button class="berry-slot" data-berry="nanab" title="Acalma o Pokémon para que ele não fuja nesta rodada">
+                <span class="berry-icon">🍌</span>
+                <div class="berry-meta">
+                  <span class="berry-name">Fruta Ananás</span>
+                  <span class="berry-desc">Impede Fuga</span>
+                </div>
+                <span id="count-nanab" class="berry-badge">8</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Botões de Ação Principal -->
+          <div class="action-buttons-group">
+            <button id="btn-throw-ball" class="btn-primary catch-action-btn pulse-action">
+              🔴 Arremessar Pokébola <kbd>Espaço</kbd>
+            </button>
+            <button id="btn-run-away" class="btn-secondary escape-btn">
+              🏃 Fugir
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: BOX POKÉMON (PC DO BILL) -->
+      <section id="tab-box-panel" class="tab-panel hidden">
+        <div class="pc-terminal-header">
+          <div class="pc-title-bar">
+            <div class="pc-system-name">
+              <span class="pc-icon-badge">💻</span>
+              <div>
+                <h2>Sistema de Armazenamento Pokémon (PC do Bill)</h2>
+                <p>Organize, inspecione e gerencie individualmente seus Pokémon capturados.</p>
+              </div>
+            </div>
+            <div class="pc-stats-pill">
+              <span class="pc-pill-lbl">Total Guardado:</span>
+              <strong id="pc-total-count" class="pc-pill-num">0</strong> Pokémon
+            </div>
+          </div>
+
+          <!-- Barra de Controles de Box e Filtros -->
+          <div class="pc-controls-bar">
+            <div class="pc-box-selector">
+              <span class="pc-sub-label">Vagas:</span>
+              <button class="box-tab-pill active" data-box="1">Box 1</button>
+              <button class="box-tab-pill" data-box="2">Box 2</button>
+              <button class="box-tab-pill" data-box="3">Box 3</button>
+              <button class="box-tab-pill" data-box="4">Box 4</button>
+              <button class="box-tab-pill" data-box="all">Todas</button>
+            </div>
+
+            <div class="pc-search-sort-group">
+              <div class="search-input-box compact">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="pc-search-input" placeholder="Buscar por apelido ou espécie...">
+              </div>
+
+              <select id="pc-sort-select" class="filter-dropdown">
+                <option value="recent">Mais Recentes</option>
+                <option value="level_desc">Maior Nível</option>
+                <option value="pokedex_asc">Nº Pokédex</option>
+                <option value="name_asc">Nome (A-Z)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grade de Cartões do PC -->
+        <div id="pc-box-grid" class="pc-grid-storage">
+          <!-- Renderizado via box.js -->
+        </div>
+      </section>
+
+      <!-- TAB 3: POKÉDEX KANTO (151 POKÉMON) -->
+      <section id="tab-pokedex-panel" class="tab-panel hidden">
+        <div class="pokedex-dashboard-header">
+          <div class="pokedex-progress-summary">
+            <div class="pokedex-stats-top">
+              <h2>Pokédex Regional de Kanto</h2>
+              <span class="pokedex-counter-text">
+                Capturados: <strong id="pokedex-seen-val"><span id="pokedex-seen-count">0</span> vistos</strong> / 
+                <strong class="caught-highlight"><span id="pokedex-caught-count-inner">151</span> total</strong>
+              </span>
+            </div>
+            <div class="pokedex-progress-track">
+              <div id="pokedex-progress-bar" class="pokedex-progress-fill" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <!-- Barra de Busca e Filtros -->
+          <div class="pokedex-filters-bar">
+            <div class="search-input-box">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="pokedex-search-input" placeholder="Buscar Pokémon por nome ou nº (#001)...">
+            </div>
+
+            <div class="filter-controls-group">
+              <select id="pokedex-type-filter" class="filter-dropdown">
+                <option value="all">Todos os Tipos</option>
+                <option value="Grama">Planta / Grama</option>
+                <option value="Fogo">Fogo</option>
+                <option value="Água">Água</option>
+                <option value="Elétrico">Elétrico</option>
+                <option value="Inseto">Inseto</option>
+                <option value="Normal">Normal</option>
+                <option value="Venenoso">Venenoso</option>
+                <option value="Terrestre">Terrestre</option>
+                <option value="Pedra">Pedra</option>
+                <option value="Psíquico">Psíquico</option>
+                <option value="Lutador">Lutador</option>
+                <option value="Fantasma">Fantasma</option>
+                <option value="Gelo">Gelo</option>
+                <option value="Dragão">Dragão</option>
+                <option value="Fada">Fada</option>
+              </select>
+
+              <div class="status-filters-pills">
+                <button class="status-filter-btn active" data-status="all">Todos</button>
+                <button class="status-filter-btn" data-status="caught">Capturados</button>
+                <button class="status-filter-btn" data-status="uncaught">Não Obtidos</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grade de Cartões dos 151 Pokémon -->
+        <div id="pokedex-grid" class="pokedex-grid">
+          <!-- Renderizado via pokedex.js -->
+        </div>
+      </section>
+
+      <!-- TAB 4: POKÉ MART (LOJA DE ITENS) -->
+      <section id="tab-shop-panel" class="tab-panel hidden">
+        <div class="shop-terminal-header">
+          <div class="shop-clerk-banner">
+            <div class="clerk-avatar-box">
+              <span class="clerk-avatar">🏪</span>
+            </div>
+            <div class="clerk-dialog-box">
+              <div class="clerk-name-tag">Atendente do Poké Mart</div>
+              <p class="clerk-speech">"Bem-vindo ao Poké Mart oficial da Liga Kanto! Temos Pokébolas oficiais da Silph Co. e frutas silvestres para suas capturas. Em que posso ajudá-lo hoje?"</p>
+            </div>
+          </div>
+
+          <!-- Saldo Atual e Alternador Comprar / Vender -->
+          <div class="shop-top-bar">
+            <div class="shop-balance-display">
+              <span class="balance-label">Seu Saldo:</span>
+              <strong id="shop-user-balance" class="balance-val">₽ 2.500</strong>
+            </div>
+
+            <div class="shop-mode-selector">
+              <button class="shop-tab-pill active" data-mode="buy" onclick="shop.setMode('buy')">
+                🛒 Comprar Itens
+              </button>
+              <button class="shop-tab-pill" data-mode="sell" onclick="shop.setMode('sell')">
+                💵 Vender da Bolsa
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grade de Itens da Loja -->
+        <div id="shop-items-grid" class="shop-items-grid">
+          <!-- Renderizado dinamicamente via js/shop.js -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Modal Detalhado da Pokédex -->
+    <div id="pokedex-modal" class="modal-backdrop">
+      <div id="pokedex-modal-content" class="modal-card">
+        <!-- Conteúdo dinâmico via pokedex.js -->
+      </div>
+    </div>
+
+    <!-- Modal Comemorativo Gotcha! -->
+    <div id="gotcha-modal" class="modal-backdrop">
+      <div id="gotcha-content" class="modal-card gotcha-card">
+        <!-- Conteúdo dinâmico via capture.js -->
+      </div>
+    </div>
+
+    <!-- Modal de Inspeção da Box do PC -->
+    <div id="pc-inspect-modal" class="modal-backdrop">
+      <div id="pc-inspect-content" class="modal-card">
+        <!-- Conteúdo dinâmico via box.js -->
+      </div>
+    </div>
+
+    <!-- Modal Customizado de Confirmação para Soltar Pokémon -->
+    <div id="pc-confirm-release-modal" class="modal-backdrop">
+      <div class="modal-card dialog-popup-card">
+        <div class="dialog-popup-header">
+          <span class="dialog-popup-icon">🌿</span>
+          <h3>Soltar Pokémon na Natureza</h3>
+        </div>
+        <div class="dialog-popup-body" id="confirm-release-body">
+          <!-- Conteúdo dinâmico via box.js -->
+        </div>
+        <div class="dialog-popup-actions">
+          <button id="btn-confirm-release-yes" class="btn-pc-action release-btn">
+            🌿 Sim, Soltar Pokémon
+          </button>
+          <button class="btn-pc-action cancel-btn" onclick="box.closeReleaseConfirmModal()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Customizado para Renomear Pokémon -->
+    <div id="pc-rename-modal" class="modal-backdrop">
+      <div class="modal-card dialog-popup-card">
+        <div class="dialog-popup-header">
+          <span class="dialog-popup-icon">✏️</span>
+          <h3>Mudar Apelido</h3>
+        </div>
+        <div class="dialog-popup-body">
+          <p id="rename-species-hint" class="dialog-hint-text">Digite o novo apelido para o seu Pokémon:</p>
+          <input type="text" id="rename-pokemon-input" class="dialog-text-input" maxlength="20" placeholder="Novo apelido...">
+        </div>
+        <div class="dialog-popup-actions">
+          <button id="btn-save-rename" class="btn-pc-action rename-btn">
+            💾 Salvar Apelido
+          </button>
+          <button class="btn-pc-action cancel-btn" onclick="box.closeRenameModal()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Sincronização e Conexão com Firebase -->
+    <div id="firebase-cloud-modal" class="modal-backdrop">
+      <div class="modal-card cloud-modal-card">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="modal-number">☁️</span>
+            <h2 class="modal-name">Nuvem Firebase</h2>
+          </div>
+          <button class="modal-close-btn" onclick="fbService.closeCloudModal()">×</button>
+        </div>
+
+        <div class="cloud-modal-body">
+          <!-- Card de Status Atual -->
+          <div class="cloud-status-card">
+            <div class="cloud-status-icon-box">
+              <span id="cloud-status-icon">☁️</span>
+            </div>
+            <div class="cloud-status-details">
+              <h4 id="cloud-status-text">Conectado ao Firebase Firestore</h4>
+              <p>Último backup: <strong id="cloud-last-sync">Nunca</strong></p>
+              <div class="trainer-cloud-id-row">
+                <span>ID do Treinador:</span>
+                <code id="cloud-trainer-id">ASH-9821</code>
+                <button class="copy-id-btn" onclick="fbService.copyTrainerId()" title="Copiar ID do Treinador">📋 Copiar</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botões de Ação Imediata -->
+          <div class="cloud-action-buttons">
+            <button class="btn-cloud-action save-btn" onclick="fbService.saveToCloud()">
+              ☁️ Fazer Backup na Nuvem
+            </button>
+            <button class="btn-cloud-action load-btn" onclick="fbService.loadFromCloud()">
+              📥 Restaurar da Nuvem
+            </button>
+          </div>
+
+          <!-- Seção de Configuração de Chaves do Projeto -->
+          <details class="cloud-config-details">
+            <summary class="cloud-config-summary">⚙️ Configurações do Projeto Firebase (Console)</summary>
+            <div class="cloud-config-form">
+              <p class="config-instructions">Insira as credenciais do seu projeto Firebase geradas no <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase Console</a> para sincronizar seu progresso entre dispositivos:</p>
+              
+              <div class="form-field">
+                <label>Chave de API (apiKey):</label>
+                <input type="text" id="fb-api-key" placeholder="AIzaSy...">
+              </div>
+              
+              <div class="form-field">
+                <label>ID do Projeto (projectId):</label>
+                <input type="text" id="fb-project-id" placeholder="pokeif-game">
+              </div>
+
+              <div class="form-field">
+                <label>Domínio de Autenticação (authDomain):</label>
+                <input type="text" id="fb-auth-domain" placeholder="pokeif-game.firebaseapp.com">
+              </div>
+
+              <div class="form-field">
+                <label>App ID (appId):</label>
+                <input type="text" id="fb-app-id" placeholder="1:123456789:web:abcdef">
+              </div>
+
+              <button class="btn-primary full-width" onclick="fbService.handleSaveCredentials()">
+                💾 Conectar e Salvar Credenciais
+              </button>
+            </div>
+          </details>
+        </div>
+    <!-- Modal de Login & Cadastro de Treinador -->
+    <div id="trainer-auth-modal" class="modal-backdrop">
+      <div class="modal-card auth-modal-card">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="modal-number">⚡</span>
+            <h2 class="modal-name" id="auth-modal-title">Entrar na Jornada</h2>
+          </div>
+          <button class="modal-close-btn" onclick="fbService.closeAuthModal()">×</button>
+        </div>
+
+        <!-- Alternador de Abas: Entrar / Cadastrar -->
+        <div class="auth-tabs-nav" id="auth-tabs-nav">
+          <button class="auth-tab-btn active" id="tab-login-btn" onclick="fbService.setAuthMode('login')">
+            🔑 Fazer Login
+          </button>
+          <button class="auth-tab-btn" id="tab-signup-btn" onclick="fbService.setAuthMode('signup')">
+            📝 Criar Conta
+          </button>
+        </div>
+
+        <div class="auth-modal-body">
+          <!-- Visualização de Perfil Logado -->
+          <div id="auth-profile-view" class="auth-profile-view" style="display: none;">
+            <div class="profile-info-box">
+              <span class="profile-badge">Treinador Conectado</span>
+              <h3 id="profile-user-name">Ash Ketchum</h3>
+              <p id="profile-user-email">treinador@pokemon.com</p>
+            </div>
+            <button class="btn-logout" onclick="fbService.logout()">
+              🚪 Sair da Conta (Logout)
+            </button>
+          </div>
+
+          <!-- Seletor de Avatar -->
+          <div id="auth-avatar-section" class="auth-avatar-section" style="display: none;">
+            <label class="auth-input-label">Escolha seu Avatar:</label>
+            <div class="avatar-options-grid">
+              <button type="button" class="avatar-option-btn active" data-avatar="🧢" onclick="fbService.selectAvatar('🧢')">🧢 Ash</button>
+              <button type="button" class="avatar-option-btn" data-avatar="🔴" onclick="fbService.selectAvatar('🔴')">🔴 Red</button>
+              <button type="button" class="avatar-option-btn" data-avatar="💧" onclick="fbService.selectAvatar('💧')">💧 Misty</button>
+              <button type="button" class="avatar-option-btn" data-avatar="⚡" onclick="fbService.selectAvatar('⚡')">⚡ Blue</button>
+              <button type="button" class="avatar-option-btn" data-avatar="🕶️" onclick="fbService.selectAvatar('🕶️')">🕶️ Gary</button>
+            </div>
+          </div>
+
+          <!-- Campos de Credenciais -->
+          <div id="auth-creds-fields" class="auth-creds-fields">
+            <!-- Campo Nome (Apenas no Cadastro) -->
+            <div id="auth-name-group" class="auth-form-group" style="display: none;">
+              <label class="auth-input-label">Nome do Treinador:</label>
+              <div class="auth-input-wrapper">
+                <span class="auth-input-icon">👤</span>
+                <input type="text" id="auth-input-name" class="auth-text-input" placeholder="Ex: Ash Ketchum" maxlength="20">
+              </div>
+            </div>
+
+            <!-- Campo Email -->
+            <div class="auth-form-group">
+              <label class="auth-input-label">Email:</label>
+              <div class="auth-input-wrapper">
+                <span class="auth-input-icon">📧</span>
+                <input type="email" id="auth-input-email" class="auth-text-input" placeholder="treinador@pokemon.com">
+              </div>
+            </div>
+
+            <!-- Campo Senha -->
+            <div class="auth-form-group">
+              <label class="auth-input-label">Senha:</label>
+              <div class="auth-input-wrapper">
+                <span class="auth-input-icon">🔒</span>
+                <input type="password" id="auth-input-password" class="auth-text-input" placeholder="••••••••" minlength="6">
+              </div>
+            </div>
+
+            <!-- Botão de Ação Principal -->
+            <button id="btn-auth-submit" class="btn-primary full-width auth-submit-btn" onclick="fbService.handleAuthSubmit()">
+              ⚡ Entrar na Conta
+            </button>
+
+            <div class="auth-divider" id="auth-guest-divider">
+              <span>ou</span>
+            </div>
+
+            <!-- Botão Convidado -->
+            <button id="btn-guest-login" class="btn-secondary full-width guest-login-btn" onclick="fbService.handleGuestLogin()">
+              🎮 Jogar como Convidado (Sem Senha)
+            </button>
+
+            <!-- Rodapé com alternância de modo -->
+            <p id="auth-switch-prompt" class="auth-switch-prompt">
+              Novo por aqui? <a href="javascript:void(0)" onclick="fbService.setAuthMode('signup')">Crie sua conta de Treinador</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Container de Toasts/Notificações -->
+    <div id="toast-container" class="toast-container"></div>
+  </div>
+
+  <!-- Google Firebase SDKs (v10 compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+  <!-- Scripts do Jogo -->
+  <script src="js/data/kanto-pokemon.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/firebase.js"></script>
+  <script src="js/pokedex.js"></script>
+  <script src="js/box.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/capture.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
