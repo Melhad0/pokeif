@@ -404,7 +404,7 @@ class FirebaseService {
     if (nameEl) nameEl.textContent = this.user.name || 'Treinador Kanto';
     if (rankEl) {
       rankEl.textContent = this.user.isGuest ? 'Treinador Convidado' : 'Treinador Oficial';
-      rankEl.style.color = this.user.isGuest ? '#94a3b8' : '#60a5fa';
+      rankEl.style.color = this.user.isGuest ? '#94a3b8' : '#ff6b7a';
     }
     if (authIcon) {
       authIcon.textContent = this.user.isGuest ? '🔑' : '👤';
